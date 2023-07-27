@@ -9,9 +9,12 @@
 --  It even identifies via the counts if there are 2 or more rows (dupes) in one table but only 1 row in the other.
 --  I believe it also finds NULL-vs-non-NULL changes if I remember correctly but that might be worth doublechecking.
 
-
+-- TODO: make a SQL Fiddle example for this
 
 -- list out *every* column in the table (but perhaps skip any insert/update audit columns whose dates may be expected to change) to check that *every* column matches
+-- loosely speaking, rows returned with cnt_tbl_1=1 exist in table 1 but not table 2; rows with cnt_tbl_2=1 exist in table 2 but not table 1
+-- more precisely, this counts how often a row with a specific set of attributes col_1...col_5 exists in each table and ensures the rowcount matches
+-- pedantic-note: this assumes no columns in the two tables are labeled "src1" or "src2"
 SELECT col_1,col_2,col_3,col_4,col_5,
    COUNT(src1) cnt_tbl_1, 
    COUNT(src2) cnt_tbl_2
